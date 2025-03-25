@@ -1,5 +1,6 @@
 package com.travelmate.controller;
 
+import com.travelmate.dto.UpdateTripRequest;
 import com.travelmate.entity.Trip;
 import com.travelmate.service.TripService;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,15 @@ public class TripController {
         String username = userDetails.getUsername();
         List<Trip> trips = tripService.getTripsByUsername(username);
         return ResponseEntity.ok(trips);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Trip> updateTrip(
+            @PathVariable Long id,
+            @RequestBody UpdateTripRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Trip updatedTrip = tripService.updateTrip(id, request, userDetails.getUsername());
+        return ResponseEntity.ok(updatedTrip);
     }
 }
