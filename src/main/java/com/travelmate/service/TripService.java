@@ -44,4 +44,16 @@ public class TripService {
 
         return tripRepository.save(trip);
     }
+
+    // ✅ Metodo per eliminare un viaggio
+    public void deleteTrip(Long tripId, String username) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new RuntimeException("Viaggio non trovato"));
+
+        if (!trip.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("Non sei autorizzato a eliminare questo viaggio");
+        }
+
+        tripRepository.delete(trip);
+    }
 }

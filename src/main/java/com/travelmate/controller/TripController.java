@@ -41,4 +41,12 @@ public class TripController {
         Trip updatedTrip = tripService.updateTrip(id, request, userDetails.getUsername());
         return ResponseEntity.ok(updatedTrip);
     }
+
+    // ✅ DELETE endpoint per rimuovere un viaggio
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTrip(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        tripService.deleteTrip(id, username);
+        return ResponseEntity.noContent().build(); // HTTP 204
+    }
 }
