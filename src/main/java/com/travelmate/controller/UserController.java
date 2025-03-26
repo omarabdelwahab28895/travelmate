@@ -9,6 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -29,7 +31,7 @@ public class UserController {
 
     @PutMapping("/me")
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal UserDetails userDetails,
-                                           @RequestBody UpdateUserRequest request) {
+                                           @RequestBody @Valid UpdateUserRequest request) {
         String username = userDetails.getUsername();
         User updated = userService.updateUser(username, request);
         return ResponseEntity.ok(new UserProfileResponse(

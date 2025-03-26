@@ -20,13 +20,16 @@ public class TripService {
     public Trip createTrip(String username, Trip trip) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
-
-        trip.setUser(user); // Colleghiamo il viaggio all'utente
+        trip.setUser(user);
         return tripRepository.save(trip);
     }
 
-    public List<Trip> getTripsByUsername(String username) {
-        return tripRepository.findByUserUsername(username);
+    public List<Trip> getTripsByUsername(String username, String destination) {
+        if (destination != null && !destination.isBlank()) {
+            return tripRepository.findByUserUsernameAndDestinationContainingIgnoreCase(username, destination);
+        } else {
+            return tripRepository.findByUserUsername(username);
+        }
     }
 
     public Trip updateTrip(Long tripId, UpdateTripRequest request, String username) {
@@ -45,7 +48,6 @@ public class TripService {
         return tripRepository.save(trip);
     }
 
-    // ✅ Metodo per eliminare un viaggio
     public void deleteTrip(Long tripId, String username) {
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() -> new RuntimeException("Viaggio non trovato"));

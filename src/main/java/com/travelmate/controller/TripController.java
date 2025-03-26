@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,27 +27,29 @@ public class TripController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Trip>> getMyTrips(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<Trip>> getMyTrips(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) String destination
+    ) {
         String username = userDetails.getUsername();
-        List<Trip> trips = tripService.getTripsByUsername(username);
+        List<Trip> trips = tripService.getTripsByUsername(username, destination);
         return ResponseEntity.ok(trips);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Trip> updateTrip(
             @PathVariable Long id,
-            @RequestBody UpdateTripRequest request,
+            @RequestBody @Valid UpdateTripRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
 
         Trip updatedTrip = tripService.updateTrip(id, request, userDetails.getUsername());
         return ResponseEntity.ok(updatedTrip);
     }
 
-    // ✅ DELETE endpoint per rimuovere un viaggio
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrip(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         tripService.deleteTrip(id, username);
-        return ResponseEntity.noContent().build(); // HTTP 204
+        return ResponseEntity.noContent().build();
     }
 }
