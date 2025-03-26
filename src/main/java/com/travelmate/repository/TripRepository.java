@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
-    List<Trip> findByUserUsername(String username);
-    List<Trip> findByUserUsernameAndDestinationContainingIgnoreCase(String username, String destination);
+    List<Trip> findByUserUsernameOrderByStartDateAsc(String username);
+    List<Trip> findByUserUsernameAndDestinationContainingIgnoreCaseOrderByStartDateAsc(String username, String destination);
+    long countByUserUsername(String username);
 }

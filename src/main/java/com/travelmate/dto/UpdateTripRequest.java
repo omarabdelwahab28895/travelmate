@@ -20,4 +20,6 @@ public class UpdateTripRequest {
 
     @Size(max = 255, message = "La descrizione non può superare 255 caratteri")
     private String description;
+
+    private String imageUrl; // ➕ Campo per immagine
 }
