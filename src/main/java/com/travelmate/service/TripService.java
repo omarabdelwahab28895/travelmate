@@ -103,7 +103,7 @@ public class TripService {
         List<TripExportResponse> trips = exportTrips(username);
 
         StringBuilder csv = new StringBuilder();
-        csv.append("Destinazione,Data Inizio,Data Fine,Descrizione\n");
+        csv.append("Destinazione,Data Inizio,Data Fine,Itinerario\n");
 
         for (TripExportResponse trip : trips) {
             csv.append(trip.getDestination()).append(",");
@@ -136,7 +136,7 @@ public class TripService {
             table.setWidthPercentage(100);
             table.setWidths(new int[]{3, 2, 2, 4});
 
-            Stream.of("Destinazione", "Inizio", "Fine", "Descrizione").forEach(header -> {
+            Stream.of("Destinazione", "Inizio", "Fine", "Itinerario").forEach(header -> {
                 PdfPCell cell = new PdfPCell(new Phrase(header));
                 cell.setBackgroundColor(Color.LIGHT_GRAY);
                 table.addCell(cell);

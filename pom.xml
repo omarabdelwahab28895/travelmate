@@ -12,7 +12,7 @@
 	</parent>
 
 	<groupId>com.travelmate</groupId>
-	<artifactId>travelmate</artifactId>
+	<artifactId>travelmate-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>travelmate</name>
 	<description>Demo project for Spring Boot</description>
